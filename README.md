@@ -1,27 +1,27 @@
-# XPTracker
+# 🎮 XPTracker
 
 Uma rede social de avaliações de jogos — pense em um "Letterboxd para games". Os usuários
 podem se cadastrar, avaliar os jogos que jogaram (com nota, plataforma e um texto de review),
-montar uma lista de desejo e acompanhar as avaliações da comunidade.
+montar uma lista de desejo e acompanhar as avaliações da comunidade. 🕹️
 
 O projeto é dividido em duas partes:
 
-- **Backend (API):** [FastAPI](https://fastapi.tiangolo.com/) + SQLite, com senhas protegidas
+- **🔧 Backend (API):** [FastAPI](https://fastapi.tiangolo.com/) + SQLite, com senhas protegidas
   por hash `bcrypt`.
-- **Frontend (site):** [Flask](https://flask.palletsprojects.com/) servindo páginas HTML
+- **🎨 Frontend (site):** [Flask](https://flask.palletsprojects.com/) servindo páginas HTML
   (Jinja), que conversa com a API e usa a [API do RAWG](https://rawg.io/apidocs) para buscar
   capas e dados dos jogos.
 
-## Funcionalidades
+## ✨ Funcionalidades
 
-- Cadastro e login de usuários (senha com hash `bcrypt`).
-- Busca de jogos com sugestões automáticas (via RAWG).
-- Criar, editar e excluir avaliações (nota, plataforma e texto).
-- Feed com as avaliações populares da comunidade e as suas avaliações recentes.
-- Lista de desejo: adicionar e remover jogos.
-- Perfil editável (nome, bio e foto).
+- 🔐 Cadastro e login de usuários (senha com hash `bcrypt`).
+- 🔍 Busca de jogos com sugestões automáticas (via RAWG).
+- ⭐ Criar, editar e excluir avaliações (nota, plataforma e texto).
+- 📰 Feed com as avaliações populares da comunidade e as suas avaliações recentes.
+- 💜 Lista de desejo: adicionar e remover jogos.
+- 👤 Perfil editável (nome, bio e foto).
 
-## Tecnologias
+## 🛠️ Tecnologias
 
 | Camada   | Stack                                            |
 | -------- | ------------------------------------------------ |
@@ -29,12 +29,12 @@ O projeto é dividido em duas partes:
 | Frontend | Flask, Jinja2, HTML/CSS/JS, `requests`           |
 | Externo  | API do RAWG (catálogo de jogos)                  |
 
-## Pré-requisitos
+## 📋 Pré-requisitos
 
 - Python 3.10+
 - Uma chave da API do RAWG (gratuita em https://rawg.io/apidocs)
 
-## Configuração
+## ⚙️ Configuração
 
 1. Crie o ambiente virtual e instale as dependências:
 
@@ -57,11 +57,11 @@ O projeto é dividido em duas partes:
    - `API_FASTAPI` — URL do backend (padrão `http://127.0.0.1:8000`).
    - `PORT` — porta do site Flask (use `5001` no macOS por causa do AirPlay).
 
-## Como rodar
+## 🚀 Como rodar
 
 São necessários **dois terminais** (backend e frontend rodam separados).
 
-**Terminal 1 — API (FastAPI, porta 8000):**
+**Terminal 1 — 🔧 API (FastAPI, porta 8000):**
 
 ```bash
 .venv/bin/python -m uvicorn api_fast:app --reload --port 8000
@@ -69,7 +69,7 @@ São necessários **dois terminais** (backend e frontend rodam separados).
 
 Documentação interativa da API: http://127.0.0.1:8000/docs
 
-**Terminal 2 — Site (Flask, porta 5001):**
+**Terminal 2 — 🎨 Site (Flask, porta 5001):**
 
 ```bash
 .venv/bin/python app_flask.py
@@ -77,10 +77,10 @@ Documentação interativa da API: http://127.0.0.1:8000/docs
 
 O site abre em: http://127.0.0.1:5001
 
-> **Por que a porta 5001 e não 5000?** No macOS a porta 5000 é usada pelo "Receptor AirPlay".
+> 💡 **Por que a porta 5001 e não 5000?** No macOS a porta 5000 é usada pelo "Receptor AirPlay".
 > Para usar a 5000 padrão, desligue-o em Ajustes do Sistema → Geral → AirDrop & Handoff.
 
-## Endpoints da API
+## 📡 Endpoints da API
 
 | Método   | Rota                                | Descrição                          |
 | -------- | ----------------------------------- | ---------------------------------- |
@@ -97,13 +97,13 @@ O site abre em: http://127.0.0.1:5001
 | `GET`    | `/usuarios/{id}/desejos`            | Lista de desejo de um usuário      |
 | `DELETE` | `/desejos/{id}`                     | Remove um jogo da lista de desejo  |
 
-## Banco de dados
+## 🗄️ Banco de dados
 
 Os dados ficam em `xptracker.db` (SQLite, criado automaticamente). As tabelas são `usuarios`,
 `avaliacoes` e `desejos`. Para começar do zero, basta apagar o arquivo — o `init_db()` recria
 as tabelas no próximo start da API.
 
-## Estrutura do projeto
+## 📁 Estrutura do projeto
 
 ```
 .
