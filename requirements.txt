@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+flask
+requests
+bcrypt
+email-validator
+httpx
+python-dotenv

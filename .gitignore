@@ -1,0 +1,16 @@
+# Ambiente virtual
+.venv/
+venv/
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+
+# Variáveis de ambiente (segredos)
+.env
+
+# Banco de dados local (recriado pelo init_db)
+*.db
+
+# macOS
+.DS_Store
