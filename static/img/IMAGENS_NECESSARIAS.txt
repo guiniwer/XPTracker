@@ -1,0 +1,135 @@
+IMAGENS NECESSARIAS SOMENTE PARA index.html
+
+Coloque todas nesta pasta:
+C:\Work\Projetos\XPTracker\static\img
+
+
+============================================================
+HEADER
+============================================================
+
+logo_jogo_project.png
+- Logo principal no canto superior esquerdo.
+
+search_icon.png
+- Icone de lupa no canto superior direito.
+
+
+============================================================
+HERO / TOPO
+============================================================
+
+fortnite-festival-3840x2160-25375.png
+- Imagem grande do topo.
+- O CSS aplica recorte diagonal e leve rotacao para aproximar do Figma.
+
+
+============================================================
+TENDENCIAS
+============================================================
+
+right.png
+- Icone ao lado do titulo "Tendencias".
+
+trend_game_1.png
+- Primeiro card de tendencia.
+
+trend_game_2.png
+- Segundo card de tendencia.
+
+trend_game_3.png
+- Terceiro card de tendencia.
+
+trend_game_4.png
+- Quarto card de tendencia.
+
+
+============================================================
+BLOCOS DE INFORMACAO
+============================================================
+
+sucrose_inicio.png
+- Personagem do card "O que e XPTracker?".
+- Preferencialmente PNG com fundo transparente.
+
+jinx_inicio.png
+- Personagem do card "Gerencie sua colecao pessoal de jogos".
+- Preferencialmente PNG com fundo transparente.
+
+cod_inicio.png
+- Personagem do card "Compartilhe sua opiniao com reviews".
+- Preferencialmente PNG com fundo transparente.
+
+
+============================================================
+BANNER PRAGMATA
+============================================================
+
+diana-pragmata-hugh-7680x4320-24938.png
+- Banner grande do meio/final.
+- O CSS aplica recorte diagonal e leve rotacao para aproximar do Figma.
+
+
+============================================================
+LISTAS
+============================================================
+
+list_icon_recent.png
+- Icone do titulo "Lancados recentemente".
+
+list_icon_upcoming.png
+- Icone do titulo "Proximos lancamentos".
+
+list_icon_reviewed.png
+- Icone do titulo "Revisados hoje".
+
+
+============================================================
+SECAO MORTAL KOMBAT
+============================================================
+
+sub_zero_name.png
+- Nome/logo do Sub-Zero.
+
+scorpion_name.png
+- Nome/logo do Scorpion.
+
+mortal_png_subzero.png
+- Personagem Sub-Zero.
+- Preferencialmente PNG com fundo transparente.
+
+mortal_png_scorpion.png
+- Personagem Scorpion.
+- Preferencialmente PNG com fundo transparente.
+
+vs_mortal.png
+- Imagem central de versus.
+
+vs_mortalkombat.png
+- Imagem pequena usada na enquete.
+
+
+============================================================
+AVALIACOES POPULARES
+============================================================
+
+review_final_fantasy.png
+- Imagem da primeira avaliacao popular.
+
+review_cod.png
+- Imagem da segunda avaliacao popular.
+
+review_gta.png
+- Imagem da terceira avaliacao popular.
+
+
+============================================================
+OBSERVACAO
+============================================================
+
+Por enquanto o projeto front-end possui somente:
+- templates/index.html
+- static/css/style.css
+- static/img/IMAGENS_NECESSARIAS.txt
+
+Os outros HTMLs foram removidos para focar apenas na pagina inicial.
