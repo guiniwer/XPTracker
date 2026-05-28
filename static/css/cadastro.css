@@ -1,0 +1,378 @@
+:root {
+  --vermelho-fundo: #130005;
+  --branco: #ffffff;
+  --card: #250009;
+  --input: #691A2C;
+  --botao: #41040c;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--vermelho-fundo);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  gap: 80px;
+  padding-top: 60px;
+}
+
+/* caixa geral */
+.cadastro {
+  width: 75vw;
+  max-width: 1250px;
+  height: 680px;
+
+  background: #210008;
+  border-radius: 28px;
+
+  display: grid;
+  grid-template-columns: 380px 1fr;
+
+  position: relative;
+  overflow: hidden;
+
+  padding: 10px 60px;
+
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 15px 40px rgba(0, 0, 0, 0.55),
+    0 0 80px rgba(105, 26, 44, 0.25),
+    0 0 140px rgba(105, 26, 44, 0.12);
+
+  border: 1px solid rgba(255, 255, 255, 0.04);
+
+  backdrop-filter: blur(10px);
+}
+
+body>footer {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* lado esquerdoo */
+.formulario {
+  width: 330px;
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#cadastro-title {
+  color: var(--branco);
+  font-size: 16px;
+  margin-bottom: 22px;
+}
+
+/* icones */
+.icons-redes {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.icons-redes img {
+  width: 66px;
+  height: 66px;
+  border-radius: 16px;
+  object-fit: cover;
+  cursor: default;
+  opacity: 0.4;
+  transition: 0.3s ease;
+}
+
+.icons-redes img:not([alt="Apple"]) {
+  transform: scale(0.92);
+}
+
+.icons-redes img:hover {
+  opacity: 0.6;
+  transform: scale(1.08);
+}
+
+/* ou com a linha */
+.ou {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  font-weight: 600;
+
+  margin: 28px 0 18px;
+}
+
+.ou::before,
+.ou::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 0, 0, 0.14);
+}
+
+.em-breve {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+/* forms */
+form {
+  width: 100%;
+  background: var(--card);
+  border-radius: 18px;
+  padding: 28px 24px;
+}
+
+form h2 {
+  color: white;
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+
+form h4 {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 10px;
+  font-weight: 500;
+  margin-bottom: 22px;
+}
+
+form ul {
+  list-style: none;
+}
+
+form li {
+  margin-bottom: 14px;
+}
+
+input {
+  width: 100%;
+  height: 42px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+
+  background: var(--input);
+  color: white;
+
+  padding: 0 14px;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+}
+
+/* botoes */
+.botoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+button {
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+
+  background: var(--botao);
+  color: white;
+
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:first-child {
+  width: 90px;
+}
+
+button[type="submit"] {
+  flex: 1;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  background: #8d1730;
+}
+
+#ja-tenho-conta-button {
+  font-size: 12px;
+  font-weight: 500;
+  padding-top: 12px;
+
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+#ja-tenho-conta-button a {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+}
+
+/* PERSONAGEM */
+.imagem-cadastro {
+  position: absolute;
+  right: -10px;
+  bottom: -20px;
+
+  width: 610px;
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+
+/* RESPONSIVIDADE */
+
+/* telas médias */
+@media (max-width: 1050px) {
+  body {
+    overflow-y: auto;
+    padding: 30px 20px;
+  }
+
+  .cadastro {
+    width: 100%;
+    height: auto;
+    min-height: 650px;
+
+    grid-template-columns: 1fr;
+    padding: 50px 35px 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .formulario {
+    width: 100%;
+    max-width: 420px;
+    align-items: center;
+    text-align: center;
+  }
+
+  #cadastro-title {
+    font-size: 18px;
+  }
+
+  .icons-redes {
+    justify-content: center;
+  }
+
+  .ou {
+    max-width: 340px;
+  }
+
+  form {
+    max-width: 420px;
+  }
+
+  .imagem-cadastro {
+    position: relative;
+    right: auto;
+    bottom: auto;
+
+    width: 430px;
+    max-width: 100%;
+
+    margin-top: 20px;
+  }
+}
+
+/* celular */
+@media (max-width: 600px) {
+  body {
+    padding: 18px;
+  }
+
+  .cadastro {
+    border-radius: 22px;
+    padding: 35px 20px 0;
+  }
+
+  .formulario {
+    max-width: 100%;
+  }
+
+  #cadastro-title {
+    font-size: 16px;
+  }
+
+  .icons-redes {
+    gap: 10px;
+  }
+
+  .icons-redes img {
+    width: 52px;
+    height: 52px;
+    border-radius: 13px;
+  }
+
+  form {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  form h2 {
+    font-size: 26px;
+  }
+
+  form h4 {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  input {
+    height: 42px;
+    font-size: 13px;
+  }
+
+  .botoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .botoes button {
+    flex: 1;
+  }
+
+  button,
+  button:first-child,
+  button[type="submit"] {
+    width: 100%;
+  }
+
+  .imagem-cadastro {
+    width: 330px;
+    margin-top: 15px;
+  }
+}
+
+/* celular bem pequeno */
+@media (max-width: 380px) {
+  .icons-redes img {
+    width: 46px;
+    height: 46px;
+  }
+
+  form h2 {
+    font-size: 23px;
+  }
+
+  .imagem-cadastro {
+    width: 280px;
+  }
+}

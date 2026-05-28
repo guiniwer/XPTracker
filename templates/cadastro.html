@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}XPTracker | Cadastro{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<div class="cadastro">
+
+  <div class="formulario">
+
+    <form method="POST">
+      <h2>Cadastrar-se</h2>
+      <h4>Seu diário, avaliações e wishlist em um só lugar.</h4>
+
+      <ul>
+        <li><input type="text" name="nome" placeholder="Nome" required></li>
+        <li><input type="email" name="email" placeholder="E-mail" required></li>
+        <li><input type="password" name="senha" placeholder="Senha" required></li>
+        <li><input type="password" name="confirmar_senha" placeholder="Confirme sua senha" required></li>
+      </ul>
+
+      <div class="botoes">
+        <button type="button" onclick="if(history.length>1){history.back()}else{location.href='{{ url_for('inicio_publico') }}'}">Voltar</button>
+        <button type="submit">Registrar</button>
+      </div>
+
+      <button type="button" id="ja-tenho-conta-button">
+        <a href="{{ url_for('login') }}">Já tenho conta</a>
+      </button>
+    </form>
+
+    <p class="ou">ou</p>
+
+    <h1 id="cadastro-title">Cadastre-se com <span class="em-breve">(em breve)</span></h1>
+
+    <nav class="icons-redes" aria-hidden="true">
+      <img src="/static/img/redes-sociais/facebook-logo.jpg" alt="Facebook">
+      <img src="/static/img/redes-sociais/google-logo.png" alt="Google">
+      <img src="/static/img/redes-sociais/apple-logo.jpg" alt="Apple">
+      <img src="/static/img/redes-sociais/discord-logo.jpg" alt="Discord">
+    </nav>
+
+    {% with mensagens = get_flashed_messages() %}
+    {% if mensagens %}
+    {% for mensagem in mensagens %}
+    <p style="color: red;">{{ mensagem }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+  </div>
+
+  <img src="/static/img/cadastro-genshin-impact.webp" alt="Genshin Impact" class="imagem-cadastro">
+
+</div>
+{% endblock %}

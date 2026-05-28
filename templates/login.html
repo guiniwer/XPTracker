@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}XPTracker | Login{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<div class="login">
+
+  <div class="formulario">
+
+    <form method="POST">
+
+      <h2>Iniciar Sessão</h2>
+      <h4>Acesse sua conta para continuar.</h4>
+
+      <ul>
+        <li>
+          <input type="email" name="email" placeholder="Digite seu email" required>
+        </li>
+
+        <li>
+          <input type="password" name="senha" placeholder="Digite sua senha" required>
+        </li>
+      </ul>
+
+      <div class="botoes">
+        <button type="button" onclick="if(history.length>1){history.back()}else{location.href='{{ url_for('inicio_publico') }}'}">
+          Voltar
+        </button>
+
+        <button type="submit">
+          Entrar
+        </button>
+      </div>
+
+      <button type="button" id="criarconta-button">
+        <a href="{{ url_for('cadastro') }}">Criar conta</a>
+      </button>
+    </form>
+
+    <p class="ou">ou</p>
+
+    <h1 id="login-title">Iniciar Sessão <span class="em-breve">(em breve)</span></h1>
+
+    <nav class="icons-redes" aria-hidden="true">
+      <img src="/static/img/redes-sociais/facebook-logo.jpg" alt="Facebook">
+      <img src="/static/img/redes-sociais/google-logo.png" alt="Google">
+      <img src="/static/img/redes-sociais/apple-logo.jpg" alt="Apple">
+      <img src="/static/img/redes-sociais/discord-logo.jpg" alt="Discord">
+    </nav>
+
+    {% with mensagens = get_flashed_messages() %}
+    {% if mensagens %}
+    {% for mensagem in mensagens %}
+    <p style="color: red;">{{ mensagem }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+  </div>
+
+  <img src="/static/img/assassin-creed.webp" alt="Assassin's Creed" class="imagem-cadastro">
+
+</div>
+{% endblock %}
