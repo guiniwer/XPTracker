@@ -1,0 +1,748 @@
+{% extends 'base.html' %}
+
+{% block title %}XPTracker | Início Logado{% endblock %}
+
+{% block body_class %}page-logado{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home_logado.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/confirmacao.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/modal_review.css') }}">
+{% endblock %}
+
+{% block content %}
+<main class="logged-main">
+
+  {% with mensagens = get_flashed_messages() %}
+  {% if mensagens %}
+  <div class="toast-review-sucesso" id="toast-review-sucesso">
+    {% for mensagem in mensagens %}
+    <p>{{ mensagem }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <section class="hero-logged">
+    <img src="{{ url_for('static', filename='img/kratos.jpg') }}" alt="Kratos" class="kratos-principal">
+  </section>
+
+  <section class="dashboard-panels">
+
+    <article class="dash-card profile-card">
+      <img src="{{ usuario.foto_perfil_url if usuario.foto_perfil_url else url_for('static', filename='img/avatar_usuario.webp') }}" alt="{{ usuario.nome }} avatar" class="profile-avatar">
+
+      <div class="profile-info">
+        <h2>{{ usuario.nome }}</h2>
+        <p>@{{ usuario.nome }}</p>
+        <a href="{{ url_for('perfil') }}" class="btn-profile">Ver perfil</a>
+      </div>
+    </article>
+
+    <article class="dash-card cta-card">
+      <div class="cta-info">
+        <h2>Compartilhe uma<br>experiência</h2>
+        <p>Qual jogo você avaliou, jogou ou colocou no XPTracker hoje?</p>
+        <button type="button" class="btn-cta" id="abrir-review-card">
+          Avaliar
+        </button>
+      </div>
+
+      <img src="{{ url_for('static', filename='img/char_cta.webp') }}" alt="Personagem" class="cta-char">
+    </article>
+
+    <article class="dash-card trending-card">
+      <h2>Assuntos em alta</h2>
+
+      <div class="trend-list">
+        <a href="#reviews" class="trend-item">
+          <span class="trend-name">Resident Evil 9: Requiem</span>
+          <span class="trend-posts">12 posts</span>
+        </a>
+
+        <a href="#reviews" class="trend-item">
+          <span class="trend-name">Pragmata</span>
+          <span class="trend-posts">16 posts</span>
+        </a>
+
+        <a href="#reviews" class="trend-item">
+          <span class="trend-name">Forza Horizon 6</span>
+          <span class="trend-posts">20 posts</span>
+        </a>
+
+        <a href="#reviews" class="trend-item">
+          <span class="trend-name">Crimson Desert</span>
+          <span class="trend-posts">24 posts</span>
+        </a>
+      </div>
+    </article>
+
+  </section>
+
+  <section class="popular-reviews" id="reviews">
+    <div class="section-head">
+      <h1>Avaliações populares</h1>
+    </div>
+
+    <div class="reviews-favoritos-grid">
+
+      <div class="foto-favorito f-rosa">
+        <img src="{{ url_for('static', filename='img/capa_review_ff.jpg') }}" alt="Final Fantasy">
+        <h3>CloudStrife07</h3>
+        <p>Não importa quantos anos passem, a sensação de sair de Midgar pela primeira vez é insuperável. A trilha sonora ainda me arrepia...</p>
+        <div class="acoes-favorito">
+          <i class="fa-regular fa-heart"></i>
+          <i class="fa-regular fa-comment"></i>
+          <div class="estrelas-favorito">★★★★★</div>
+        </div>
+      </div>
+
+      <div class="foto-favorito f-verde">
+        <img src="{{ url_for('static', filename='img/lol_capa.webp') }}" alt="League of Legends">
+        <h3>anoyf</h3>
+        <p>O jogo entrega uma experiência dinâmica e envolvente, com ótima jogabilidade e partidas intensas. Os gráficos são muito bons...</p>
+        <div class="acoes-favorito">
+          <i class="fa-regular fa-heart"></i>
+          <i class="fa-regular fa-comment"></i>
+          <div class="estrelas-favorito">★★★★☆</div>
+        </div>
+      </div>
+
+      <div class="foto-favorito f-azul">
+        <img src="{{ url_for('static', filename='img/the_sims_capa.avif') }}" alt="The Sims">
+        <h3>Kratos_BR</h3>
+        <p>Um jogo muito divertido e cheio de possibilidades, com mapa amplo, missões interessantes e muita liberdade para explorar...</p>
+        <div class="acoes-favorito">
+          <i class="fa-regular fa-heart"></i>
+          <i class="fa-regular fa-comment"></i>
+          <div class="estrelas-favorito">★★★★★</div>
+        </div>
+      </div>
+
+      <div class="foto-favorito f-rosa">
+        <img src="{{ url_for('static', filename='img/mario-kart_capa.jpg') }}" alt="Mario Kart">
+        <h3>Tifa_Lockhart</h3>
+        <p>Tem uma proposta leve e divertida, com uma interface agradável e fácil de usar. Tornando a interação mais natural e interessante...</p>
+        <div class="acoes-favorito">
+          <i class="fa-regular fa-heart"></i>
+          <i class="fa-regular fa-comment"></i>
+          <div class="estrelas-favorito">★★★★☆</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="popular-reviews minhas-reviews-recentes" id="minhas-reviews">
+    <div class="section-head">
+      <h1>Suas avaliações recentes</h1>
+      <a href="{{ url_for('perfil') }}" class="ver-mais">Ver perfil</a>
+    </div>
+
+    <div class="reviews-recentes-grid">
+
+      {% for review in reviews %}
+      <article class="review-recente-card" data-card-review data-id="{{ review.id }}"
+        data-nome="{{ review.nome_jogo }}" data-texto="{{ review.review_texto }}" data-nota="{{ review.nota }}">
+        <div class="review-recente-thumb">
+          <img src="{{ review.capa_jogo_url }}" alt="{{ review.nome_jogo }}">
+        </div>
+
+        <div class="review-recente-body">
+          <h3 class="review-recente-titulo">{{ review.nome_jogo }}</h3>
+          <p class="review-recente-texto">{{ review.review_texto }}</p>
+
+          <div class="review-recente-footer">
+            <div class="review-recente-stars">
+              {% set nota = review.nota|float %}
+
+              {% for i in range(1, 6) %}
+              {% if i <= nota %} <span class="filled">★</span>
+                {% elif i - 0.5 <= nota %} <span class="half">★</span>
+                  {% else %}
+                  <span class="empty">★</span>
+                  {% endif %}
+                  {% endfor %}
+            </div>
+
+            <div class="review-recente-actions">
+              <button type="button" class="btn-editar-review" data-id="{{ review.id }}">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+
+              <button type="button" class="btn-deletar-review" data-id="{{ review.id }}">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+      {% else %}
+      <p class="empty-state">Você ainda não publicou avaliações. Use o botão "+" para criar a primeira!</p>
+      {% endfor %}
+
+    </div>
+  </section>
+
+  <section class="jogos-descobrir" id="jogos-descobrir">
+
+    <div class="section-head">
+      <h1>Jogos para descobrir</h1>
+    </div>
+
+    <div class="jogos-descobrir-grid">
+
+      <article class="jogo-descobrir-card" data-nome="Fortnite"
+        data-capa="{{ url_for('static', filename='img/explorar/fortnite_capa.webp') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/fortnite_capa.webp') }}" alt="Fortnite">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Fortnite</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Roblox"
+        data-capa="{{ url_for('static', filename='img/explorar/roblox_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/roblox_capa.jpg') }}" alt="Roblox">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Roblox</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Dota"
+        data-capa="{{ url_for('static', filename='img/explorar/dota_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/dota_capa.jpg') }}" alt="Dota">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Dota</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Lego"
+        data-capa="{{ url_for('static', filename='img/explorar/lego_capa.avif') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/lego_capa.avif') }}" alt="Lego">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Lego</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Brawlhalla"
+        data-capa="{{ url_for('static', filename='img/explorar/brawlhalla_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/brawlhalla_capa.jpg') }}" alt="Brawlhalla">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Brawlhalla</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="League of Legends"
+        data-capa="{{ url_for('static', filename='img/explorar/league-of-legends_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/league-of-legends_capa.jpg') }}"
+          alt="League of Legends">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>League of Legends</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Free Fire"
+        data-capa="{{ url_for('static', filename='img/explorar/free_fire_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/free_fire_capa.jpg') }}" alt="Free Fire">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Free Fire</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Brawl Stars"
+        data-capa="{{ url_for('static', filename='img/explorar/brawl_stars_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/brawl_stars_capa.jpg') }}" alt="Brawl Stars">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Brawl Stars</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Genshin Impact"
+        data-capa="{{ url_for('static', filename='img/explorar/genshin_impact-capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/genshin_impact-capa.jpg') }}" alt="Genshin Impact">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Genshin Impact</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Stumble Guys"
+        data-capa="{{ url_for('static', filename='img/explorar/stumble guys_capa.webp') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/stumble guys_capa.webp') }}" alt="Stumble Guys">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Stumble Guys</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Stardew Valley"
+        data-capa="{{ url_for('static', filename='img/explorar/stardew_valley_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/stardew_valley_capa.jpg') }}" alt="Stardew Valley">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Stardew Valley</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="GTA V"
+        data-capa="{{ url_for('static', filename='img/explorar/gta_v_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/gta_v_capa.jpg') }}" alt="GTA V">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>GTA V</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Counter-Strike 2"
+        data-capa="{{ url_for('static', filename='img/explorar/counter_strike_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/counter_strike_capa.jpg') }}" alt="Counter-Strike 2">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Counter-Strike 2</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Valorant"
+        data-capa="{{ url_for('static', filename='img/explorar/valorant_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/valorant_capa.jpg') }}" alt="Valorant">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Valorant</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Call of Duty"
+        data-capa="{{ url_for('static', filename='img/explorar/call_of_duty_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/call_of_duty_capa.jpg') }}" alt="Call of Duty">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Call of Duty</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="The Witcher 3"
+        data-capa="{{ url_for('static', filename='img/explorar/the_witcher_3_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/the_witcher_3_capa.jpg') }}" alt="The Witcher 3">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>The Witcher 3</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Red Dead Redemption 2"
+        data-capa="{{ url_for('static', filename='img/explorar/red_dead_redemption_2_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/red_dead_redemption_2_capa.jpg') }}"
+          alt="Red Dead Redemption 2">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Red Dead Redemption 2</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Elden Ring"
+        data-capa="{{ url_for('static', filename='img/explorar/elden_ring_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/elden_ring_capa.jpg') }}" alt="Elden Ring">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Elden Ring</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="God of War"
+        data-capa="{{ url_for('static', filename='img/explorar/god_of_war_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/god_of_war_capa.jpg') }}" alt="God of War">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>God of War</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Zelda: Breath of the Wild"
+        data-capa="{{ url_for('static', filename='img/explorar/zelda_botw_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/zelda_botw_capa.jpg') }}"
+          alt="Zelda: Breath of the Wild">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Zelda: Breath of the Wild</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Super Mario Odyssey"
+        data-capa="{{ url_for('static', filename='img/explorar/super_mario_odyssey_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/super_mario_odyssey_capa.jpg') }}"
+          alt="Super Mario Odyssey">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Super Mario Odyssey</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Cyberpunk 2077"
+        data-capa="{{ url_for('static', filename='img/explorar/cyberpunk_2077_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/cyberpunk_2077_capa.jpg') }}" alt="Cyberpunk 2077">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Cyberpunk 2077</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Among Us"
+        data-capa="{{ url_for('static', filename='img/explorar/among_us_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/among_us_capa.jpg') }}" alt="Among Us">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Among Us</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Apex Legends"
+        data-capa="{{ url_for('static', filename='img/explorar/apex_legends_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/apex_legends_capa.jpg') }}" alt="Apex Legends">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Apex Legends</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Overwatch"
+        data-capa="{{ url_for('static', filename='img/explorar/overwatch_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/overwatch_capa.jpg') }}" alt="Overwatch">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Overwatch</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="EA Sports FC 24"
+        data-capa="{{ url_for('static', filename='img/explorar/ea_sports_fc_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/ea_sports_fc_capa.jpg') }}" alt="EA Sports FC 24">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>EA Sports FC 24</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="The Last of Us"
+        data-capa="{{ url_for('static', filename='img/explorar/the_last_of_us_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/the_last_of_us_capa.jpg') }}" alt="The Last of Us">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>The Last of Us</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <article class="jogo-descobrir-card" data-nome="Hollow Knight"
+        data-capa="{{ url_for('static', filename='img/explorar/hollow_knight_capa.jpg') }}">
+
+        <img src="{{ url_for('static', filename='img/explorar/hollow_knight_capa.jpg') }}" alt="Hollow Knight">
+
+        <div class="jogo-descobrir-overlay">
+          <h3>Hollow Knight</h3>
+
+          <div class="jogo-descobrir-acoes">
+            <button type="button" class="btn-avaliar-descobrir">Avaliar</button>
+
+            <button type="button" class="btn-desejo-descobrir">
+              <i class="fa-regular fa-bookmark"></i>
+              Desejo
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  {% with modal_origem = 'home' %}{% include '_modal_review.html' %}{% endwith %}
+</main>
+
+{% include '_modal_edit_review.html' %}
+
+{% include '_modal_confirmacao.html' %}
+{% endblock %}
+
+{% block page_footer %}{% include '_footer.html' %}{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='js/home.js') }}"></script>
+<script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+{% endblock %}

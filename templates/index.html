@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}XPTracker | Início{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home_publico.css') }}">
+{% endblock %}
+
+{% block content %}
+<main>
+  <section class="hero-image hero-cut">
+    <img src="{{ url_for('static', filename='img/fortnite-festival.webp') }}" alt="Fortnite Festival">
+  </section>
+
+  <section class="home-section trend-section">
+    <div class="section-head">
+      <h1>Tendencias</h1>
+      <img class="section-icon" src="{{ url_for('static', filename='img/right.png') }}" alt="">
+      <a href="#avaliacoes">Veja mais</a>
+    </div>
+    <div class="trend-grid">
+      <img src="{{ url_for('static', filename='img/trend_game_1.png') }}" alt="Jogo em tendencia 1">
+      <img src="{{ url_for('static', filename='img/trend_game_2.png') }}" alt="Jogo em tendencia 2">
+      <img src="{{ url_for('static', filename='img/trend_game_3.png') }}" alt="Jogo em tendencia 3">
+      <img src="{{ url_for('static', filename='img/trend_game_4.png') }}" alt="Jogo em tendencia 4">
+    </div>
+  </section>
+
+  <section class="info-layout" id="sobre">
+    <article class="info-card wide first-info">
+      <img src="{{ url_for('static', filename='img/sucrose_inicio.webp') }}" alt="Sucrose">
+      <div>
+        <h2>O que e XPTracker?</h2>
+        <p>O XPTracker é o espaço ideal para você organizar e acompanhar sua coleção de jogos de forma virtual.
+          Mantenha seu backlog sempre em dia, dê notas aos títulos que você já explorou e adicione os próximos
+          lançamentos à sua lista de desejos.</p>
+      </div>
+    </article>
+
+    <article class="info-card wide second-info">
+      <img src="{{ url_for('static', filename='img/jinx_inicio.webp') }}" alt="Jinx">
+      <div>
+        <h2>Gerencie sua colecao pessoal de jogos</h2>
+        <p>Registre absolutamente todos os jogos que você já zerou, os que está jogando no momento e aqueles que ainda
+          deseja jogar. No XPTracker, você tem o controle total: detalhe sua experiência com registro de progresso,
+          diário de sessões, gerenciamento de plataformas e muito mais.</p>
+      </div>
+    </article>
+
+    <article class="info-card tall">
+      <img src="{{ url_for('static', filename='img/cod_inicio.webp') }}" alt="Call of Duty">
+      <div>
+        <h2>Compartilhe sua opiniao com reviews</h2>
+        <p>Veja o que a comunidade está achando através das avaliações. Cada jogo possui uma nota média calculada a
+          partir da opinião de todos os usuários, oferecendo um score de qualidade instantâneo. Quando estiver pronto,
+          adicione sua própria review para definir o que o jogo significou para você.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="hero-image middle-banner pragmata-cut">
+    <img src="{{ url_for('static', filename='img/diana-pragmata.webp') }}" alt="Pragmata">
+  </section>
+
+  <section class="mk-section" id="avaliacoes">
+
+    <img src="{{ url_for('static', filename='img/sub_zero_name.png') }}" alt="Sub-Zero" class="mk-name-img left">
+    <img src="{{ url_for('static', filename='img/scorpion_name.png') }}" alt="Scorpion" class="mk-name-img right">
+
+    <img src="{{ url_for('static', filename='img/mortal_png_subzero.webp') }}" alt="Sub-Zero"
+      class="mk-fighter-img left">
+    <img src="{{ url_for('static', filename='img/mortal_png_scorpion.webp') }}" alt="Scorpion"
+      class="mk-fighter-img right">
+
+    <div class="mk-content">
+
+      <div class="mk-stats-wrapper">
+        <div class="mk-stats subzero-stats">
+          <div class="stat-row">
+            <span class="stat-icon"><i class="far fa-star"></i></span> <span class="stat-val">4.7</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-icon"><i class="fas fa-angles-up"></i></span> <span class="stat-val">Agressivo</span>
+          </div>
+          <div class="stat-row">
+            <img src="{{ url_for('static', filename='img/controle_subzero.png') }}" alt="Controle"
+              class="stat-img-icon">
+            <span class="stat-val">Média</span>
+          </div>
+        </div>
+
+        <div class="mk-vs-center">
+          <img src="{{ url_for('static', filename='img/vs_mortal.png') }}" alt="VS">
+        </div>
+
+        <div class="mk-stats scorpion-stats">
+          <div class="stat-row">
+            <span class="stat-val">4.5</span> <span class="stat-icon"><i class="far fa-star"></i></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-val">Defensivo</span> <span class="stat-icon"><i class="fas fa-angles-up"></i></span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-val">Alta</span>
+            <img src="{{ url_for('static', filename='img/controle_scorpion.png') }}" alt="Controle"
+              class="stat-img-icon">
+          </div>
+        </div>
+      </div>
+
+      <div class="mk-poll-wrapper" id="mk-poll">
+        <img src="{{ url_for('static', filename='img/compartilhe_voto.png') }}" alt="Compartilhe seu voto"
+          class="poll-title-img">
+
+        <div class="poll-bar" data-voted="false">
+          <button type="button" class="poll-seg subzero" data-side="subzero" aria-label="Votar em Sub Zero">
+            <span class="poll-name">Sub Zero</span>
+            <span class="poll-pct"></span>
+          </button>
+
+          <button type="button" class="poll-seg scorpion" data-side="scorpion" aria-label="Votar em Scorpion">
+            <span class="poll-pct"></span>
+            <span class="poll-name">Scorpion</span>
+          </button>
+
+          <div class="poll-vs">
+            <img src="{{ url_for('static', filename='img/vs_mortalkombat.png') }}" alt="VS">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
+
+{% block page_footer %}{% include '_footer.html' %}{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/footer.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/battle_poll.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/inicio_publico.js') }}"></script>
+{% endblock %}
