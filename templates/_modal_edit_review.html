@@ -1,0 +1,24 @@
+{# Modal de editar avaliação, compartilhado entre início e perfil. #}
+<div class="overlay-edit-review" id="overlay-edit-review">
+  <form class="modal-edit-review" id="form-edit-review">
+    <input type="hidden" id="edit-review-id">
+
+    <button type="button" class="fechar-edit-review" id="fechar-edit-review">X</button>
+
+    <h2>Editar avaliação</h2>
+
+    <label class="edit-label">Nota</label>
+    <div class="edit-nota-area">
+      <div class="estrelas-input" id="estrelas-editar" role="slider" aria-label="Nota em estrelas" aria-valuemin="0" aria-valuemax="5"></div>
+      <span class="nota-valor" id="nota-valor-editar">0 / 5</span>
+      <input type="hidden" id="edit-review-nota">
+    </div>
+
+    <label class="edit-label" for="edit-review-texto">Review</label>
+    <textarea id="edit-review-texto" placeholder="Edite sua opinião..." required></textarea>
+
+    <button type="submit" class="btn-salvar-edit-review">
+      Salvar alterações
+    </button>
+  </form>
+</div>

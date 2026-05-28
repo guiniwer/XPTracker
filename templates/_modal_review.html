@@ -1,0 +1,91 @@
+{# Modal de criar avaliação, compartilhado entre início e perfil.
+   Espera a variável `modal_origem` ('home' ou 'perfil').
+   Aceita opcionalmente `jogo` para pré-preencher (ex.: busca do header no início). #}
+<div class="overlay-review {% if jogo %}ativo{% endif %}" id="overlay-review">
+  <form class="modal-review" method="POST" action="{{ url_for('salvar_avaliacao') }}">
+
+    <div class="topo-modal-review">
+
+      <input type="hidden" id="input-nome-jogo" name="nome_jogo" value="{{ jogo.nome if jogo else '' }}">
+      <input type="hidden" id="input-capa-jogo" name="capa_jogo_url" value="{{ jogo.capa if jogo else '' }}">
+      <input type="hidden" name="origem" value="{{ modal_origem }}">
+
+      <div class="busca-modal autocomplete-wrapper">
+        <input type="search" class="input-autocomplete" placeholder="Buscar jogo para avaliar..." autocomplete="off">
+
+        <button type="button" aria-label="Pesquisar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <div class="sugestoes-box"></div>
+      </div>
+
+      <button type="button" class="fechar-review" id="fechar-review">X</button>
+    </div>
+
+    <div class="topo-review">
+
+      <div class="jogo-info">
+        <h3 id="modal-nome-jogo">{{ jogo.nome if jogo else 'Pesquise um jogo' }}</h3>
+
+        <img id="modal-capa-jogo"
+          src="{{ jogo.capa if jogo else url_for('static', filename='img/crimson_desert-capa.webp') }}"
+          alt="{{ jogo.nome if jogo else 'Jogo' }}">
+      </div>
+
+      <div class="nota-area">
+        <h2>Nota</h2>
+
+        <div class="rating-stars">
+          <div class="estrelas-input" id="estrelas-criar" role="slider" aria-label="Nota em estrelas" aria-valuemin="0" aria-valuemax="5"></div>
+          <span class="nota-valor" id="nota-valor-criar">0 / 5</span>
+          <input type="hidden" name="nota" id="input-nota-criar">
+        </div>
+      </div>
+
+      <div class="plataforma-area">
+        <h2>Plataforma</h2>
+
+        <div class="plataformas-radio">
+          <input type="radio" name="plataforma" value="PC" id="plat-pc" required>
+          <label for="plat-pc">
+            <i class="fa-solid fa-desktop"></i>
+            PC
+          </label>
+
+          <input type="radio" name="plataforma" value="PlayStation" id="plat-ps">
+          <label for="plat-ps">
+            <i class="fa-brands fa-playstation"></i>
+            PlayStation
+          </label>
+
+          <input type="radio" name="plataforma" value="Xbox" id="plat-xbox">
+          <label for="plat-xbox">
+            <i class="fa-brands fa-xbox"></i>
+            Xbox
+          </label>
+
+          <input type="radio" name="plataforma" value="Nintendo" id="plat-nintendo">
+          <label for="plat-nintendo">
+            <i class="fa-solid fa-gamepad"></i>
+            Nintendo
+          </label>
+        </div>
+      </div>
+
+      <div class="review-texto-area">
+        <h2>Review</h2>
+
+        <div class="review-linha-envio">
+          <textarea name="review_texto" placeholder="Escreva sua opinião sobre o jogo..." required></textarea>
+
+          <button type="submit" class="btn-publicar-review">
+            Publicar review
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+</div>

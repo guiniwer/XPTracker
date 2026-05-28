@@ -1,0 +1,64 @@
+{% set ep = request.endpoint %}
+<header class="site-header">
+  <a class="brand-img" href="{{ url_for('inicio_publico') if ep == 'inicio_publico' else url_for('home') }}">
+    <img src="{{ url_for('static', filename='img/logo_jogo_project.png') }}" alt="XPTracker">
+  </a>
+
+  <nav class="main-nav" aria-label="Menu principal">
+    {% if ep == 'inicio_publico' %}
+      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
+      <a class="active" href="{{ url_for('inicio_publico') }}">Início</a>
+    {% else %}
+      {% if ep == 'perfil' %}
+        <button type="button" class="plus-link" id="abrir-modal-perfil">+</button>
+      {% else %}
+        <button class="plus-link" id="abrir-review">+</button>
+      {% endif %}
+
+      <a {% if ep == 'perfil' %}class="active" {% endif %}href="{{ url_for('perfil') }}">Perfil</a>
+      <a {% if ep == 'home' %}class="active" {% endif %}href="{{ url_for('home') }}">Início</a>
+
+      <a class="logout-link" href="{{ url_for('logout') }}" title="Sair da conta">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </a>
+    {% endif %}
+  </nav>
+
+  {% if ep == 'inicio_publico' %}
+    <div class="search-box autocomplete-wrapper" data-login-url="{{ url_for('login') }}">
+      <input type="search" class="input-autocomplete" placeholder="Buscar jogo..." autocomplete="off">
+
+      <a href="{{ url_for('login') }}" aria-label="Pesquisar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </a>
+
+      <div class="sugestoes-box"></div>
+    </div>
+  {% elif ep == 'home' %}
+    <form class="search-box autocomplete-wrapper" method="POST" action="{{ url_for('buscar_jogo') }}">
+      <input type="search" name="nome_jogo" class="input-autocomplete" placeholder="Buscar jogo..." autocomplete="off"
+        required>
+
+      <button type="button" class="btn-limpar-busca" aria-label="Limpar busca">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <button type="submit" class="btn-submit-busca" aria-label="Pesquisar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+
+      <div class="sugestoes-box"></div>
+    </form>
+  {% else %}
+    <div class="search-box autocomplete-wrapper">
+      <input type="search" class="input-autocomplete" placeholder="Buscar jogo..." autocomplete="off">
+
+      <button type="button" aria-label="Pesquisar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+
+      <div class="sugestoes-box"></div>
+    </div>
+  {% endif %}
+</header>

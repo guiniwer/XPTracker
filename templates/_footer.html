@@ -1,0 +1,127 @@
+<footer>
+  <img src="{{ url_for('static', filename='img/ellie_footer.webp') }}" alt="Ellie Footer" id="ellie-footer">
+
+  <div class="container-info-gerais">
+
+    <div class="container-logo-footer">
+      <img src="{{ url_for('static', filename='img/logo_jogo_project.png') }}" alt="XPTracker">
+
+      <div class="button-cadastro-footer">
+        <p>Que tal receber nossas novidades por email?</p>
+
+        <form class="email-box">
+          <input id="email" type="email" placeholder="Digite seu melhor E-mail">
+          <button type="submit">Cadastrar</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="container-topicos-footer">
+
+      <div class="sobre-footer">
+        <h3>SOBRE NÓS</h3>
+        <ul>
+          <li><a href="{{ url_for('inicio_publico') }}#sobre">Sobre nós</a></li>
+          <li><a href="{{ url_for('inicio_publico') }}#sobre">Como funciona</a></li>
+          <li><a href="{{ url_for('inicio_publico') }}#avaliacoes">Novidades</a></li>
+        </ul>
+      </div>
+
+      <div class="conta-footer">
+        <h3>CONTA</h3>
+        <ul>
+          <li><a href="{{ url_for('cadastro') }}">Criar conta</a></li>
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+          <li><a href="{{ url_for('home') }}">Meus jogos</a></li>
+          <li><a href="{{ url_for('perfil') }}">Configurações</a></li>
+        </ul>
+      </div>
+
+      <div class="menu-footer">
+        <h3>MENU</h3>
+        <ul>
+          <li><a href="{{ url_for('inicio_publico') }}">Home</a></li>
+          <li><a href="{{ url_for('home') }}#reviews">Reviews</a></li>
+          <li><a href="{{ url_for('inicio_publico') }}#avaliacoes">Ranking</a></li>
+          <li><a href="{{ url_for('perfil') }}">Meu perfil</a></li>
+          <li><a href="{{ url_for('home') }}">Jogos</a></li>
+        </ul>
+      </div>
+
+      <div class="suporte-footer">
+        <h3>SUPORTE</h3>
+        <ul>
+          <li>
+            <a href="https://mail.google.com" target="_blank">
+              <span style="color: #691A2C;">@</span> XpTracker@gmail.com
+            </a>
+          </li>
+          <li><a href="#">Reportar problema</a></li>
+          <li><a href="#">Sugerir jogo</a></li>
+          <li><a href="#">Central de ajuda</a></li>
+        </ul>
+      </div>
+
+      <div class="contato-footer">
+        <h3>CONTATO</h3>
+
+        <ul>
+          <li>
+            <a href="https://web.whatsapp.com" target="_blank">
+              <i class="fa-solid fa-phone" style="color: rgb(105, 26, 44);"></i>
+              (81) 9 8559-4481
+            </a>
+          </li>
+
+          <li>
+            <a href="https://web.whatsapp.com" target="_blank">
+              <i class="fa-solid fa-phone" style="color: rgb(105, 26, 44);"></i>
+              (81) 9 9639-6213
+            </a>
+          </li>
+        </ul>
+
+        <h3>NOSSAS REDES</h3>
+
+        <ul class="redes-sociais-footer">
+          <li>
+            <a href="https://www.instagram.com/guiniwer_/" target="_blank">
+              <i class="fa-brands fa-instagram" style="color: #130005;"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="https://github.com/guiniwer" target="_blank">
+              <i class="fa-brands fa-github" style="color: #130005;"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="https://www.linkedin.com/in/guiniwer-bunol/" target="_blank">
+              <i class="fa-brands fa-linkedin-in" style="color: #130005;"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="https://discord.com/users/.wiig_" target="_blank">
+              <i class="fa-brands fa-discord" style="color: #130005;"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="politicas-footer">
+        <ul>
+          <li><a href="#">Política de Cookies</a></li>
+          <li><a href="#">Política de privacidade</a></li>
+          <li><a href="#">Termos de uso</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p>&copy; 2026 | Todos os direitos reservados. Desenvolvimento de Websites Profissionais por Guiniwer Bunol &
+      Jhonata Soares</p>
+
+  </div>
+</footer>

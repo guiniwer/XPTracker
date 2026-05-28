@@ -1,0 +1,19 @@
+/* Design tokens do XPTracker — fonte única de cores e fonte.
+   Carregado antes dos CSS de página (ver base.html), então as páginas
+   podem sobrescrever um token pontual depois (ex.: home pública usa --fundo
+   mais claro). */
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap");
+
+:root {
+  --fundo: #050000;
+  --vinho: #21000a;
+  --vinho-card: #360414;
+  --rosa: #c85b7c;
+  --rosa-forte: #a22d55;
+  --texto: #ffffff;
+  --texto-fraco: #b7a4aa;
+  --linha: rgba(255, 255, 255, 0.12);
+  --verde: #8DD397;
+  --verde-claro: #8fffc1;
+}

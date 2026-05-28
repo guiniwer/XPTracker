@@ -1,0 +1,519 @@
+/* =========================
+   MODAL REVIEW (compartilhado: início + perfil)
+   Fonte única do estilo dos modais de criar e editar avaliação.
+   A busca interna do modal (.busca-modal / .sugestoes-box) continua
+   no CSS de cada página, junto da busca do header.
+========================= */
+
+.overlay-review {
+    position: fixed;
+    inset: 0;
+    z-index: 9999 !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0,0,0,0.72);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.35s ease;
+}
+
+.overlay-review.ativo {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-review {
+    position: relative;
+
+    width: min(92vw, 930px);
+    max-height: 88vh;
+    min-height: auto;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 26px 34px;
+
+    border-radius: 22px;
+    border: 2px solid rgba(255,255,255,0.08);
+
+    background: linear-gradient(135deg, #5b001d 0%, #8b0734 100%);
+    color: white;
+
+    box-shadow:
+        0 30px 60px rgba(0,0,0,0.35),
+        inset 0 0 0 1px rgba(255,255,255,0.03);
+
+    opacity: 0;
+    transform: translateY(35px) scale(0.96);
+
+    transition: transform 0.35s ease, opacity 0.35s ease;
+
+    z-index: 9999 !important;
+}
+
+.modal-review,
+.modal-review * {
+    box-sizing: border-box;
+}
+
+.overlay-review.ativo .modal-review {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.modal-review::-webkit-scrollbar {
+    width: 7px;
+}
+
+.modal-review::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.18);
+    border-radius: 999px;
+}
+
+.topo-modal-review {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    margin-bottom: 28px;
+}
+
+.fechar-review {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(122, 18, 50, 0.55),
+            rgba(78, 5, 28, 0.45)
+        );
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 0;
+    font-weight: 800;
+    line-height: 1;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.fechar-review::before {
+    content: "×";
+    display: block;
+    color: currentColor;
+    font-size: 25px;
+    font-weight: 500;
+    transform: translateY(-1px);
+}
+
+.fechar-review:hover {
+    color: white;
+    border-color: rgba(255, 122, 165, 0.18);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(137, 22, 58, 0.68),
+            rgba(95, 8, 38, 0.58)
+        );
+
+    transform: translateY(-2px) scale(1.03);
+
+    box-shadow:
+        0 14px 35px rgba(0, 0, 0, 0.25),
+        0 0 18px rgba(201, 93, 134, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.topo-review {
+    display: grid;
+    grid-template-columns: 210px 1fr 250px;
+    gap: 42px;
+    align-items: start;
+}
+
+.jogo-info h3 {
+    margin-bottom: 14px;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.jogo-info img {
+    width: 180px;
+    height: 235px;
+
+    object-fit: cover;
+    border-radius: 22px;
+}
+
+.nota-area h2,
+.plataforma-area h2 {
+    margin-bottom: 18px;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    margin-top: 18px;
+}
+
+/* Seletor de estrelas (compartilhado entre criar e editar review). */
+.estrelas-input {
+    display: inline-flex;
+    gap: 3px;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.estrelas-input .estrela {
+    line-height: 1;
+    transition: transform 0.08s ease;
+}
+
+.estrelas-input .cheia {
+    color: #ff5d9b;
+}
+
+.estrelas-input .vazia {
+    color: rgba(255,255,255,0.22);
+}
+
+.estrelas-input .meia {
+    background: linear-gradient(90deg, #ff5d9b 50%, rgba(255,255,255,0.22) 50%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.estrelas-input.invalido .vazia {
+    color: rgba(255,99,99,0.65);
+}
+
+.nota-valor {
+    color: rgba(255,255,255,0.72);
+    font-size: 22px;
+    font-weight: 800;
+}
+
+#estrelas-criar .estrela {
+    font-size: 40px;
+}
+
+.plataformas-radio {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.plataformas-radio input {
+    display: none;
+}
+
+.plataformas-radio label {
+    min-width: 120px;
+    height: 48px;
+
+    padding: 0 18px;
+    border-radius: 14px;
+    border: 1px solid transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    background: rgba(255,255,255,0.08);
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.plataformas-radio label:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-1px);
+}
+
+.plataformas-radio input:checked + label {
+    background: var(--rosa);
+    color: white;
+}
+
+.review-texto-area {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+}
+
+.review-texto-area h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.review-linha-envio {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 18px;
+
+    align-items: stretch;
+}
+
+.review-linha-envio textarea {
+    width: 100%;
+    height: 82px !important;
+    min-height: 82px;
+
+    resize: none;
+
+    padding: 14px 16px;
+
+    border: none;
+    outline: none;
+    border-radius: 16px;
+
+    background: rgba(255,255,255,0.08);
+    color: white;
+
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.review-linha-envio textarea::placeholder {
+    color: rgba(255,255,255,0.46);
+}
+
+.btn-publicar-review {
+    width: 100%;
+    height: 82px;
+
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 16px;
+
+    background: #d06b95;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.btn-publicar-review:hover {
+    background: #e17aa6;
+    transform: scale(1.01);
+}
+
+/* =========================
+   MODAL EDITAR AVALIAÇÃO
+========================= */
+
+.overlay-edit-review {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0,0,0,0.74);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.3s ease;
+}
+
+.overlay-edit-review.ativo {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-edit-review {
+    position: relative;
+
+    width: min(92vw, 520px);
+
+    padding: 28px;
+
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+
+    background: linear-gradient(180deg, #5a001d 0%, #2f0010 100%);
+    color: white;
+
+    box-shadow: 0 24px 50px rgba(0,0,0,0.32);
+}
+
+.modal-edit-review h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.fechar-edit-review {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.08);
+    color: white;
+
+    font-size: 18px;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.edit-label {
+    display: block;
+    margin: 14px 0 8px;
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.edit-nota-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+#estrelas-editar .estrela {
+    font-size: 32px;
+}
+
+.edit-nota-area .nota-valor {
+    font-size: 20px;
+}
+
+.modal-edit-review textarea {
+    width: 100%;
+    height: 145px;
+
+    resize: none;
+
+    padding: 16px;
+    border: none;
+    outline: none;
+    border-radius: 16px;
+
+    background: rgba(255,255,255,0.08);
+    color: white;
+
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.btn-salvar-edit-review {
+    width: 100%;
+    height: 52px;
+
+    margin-top: 18px;
+
+    border: none;
+    border-radius: 16px;
+
+    background: #cf6f97;
+    color: white;
+
+    font-size: 17px;
+    font-weight: 800;
+
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.btn-salvar-edit-review:hover {
+    background: #e17aa6;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 850px) {
+    .modal-review {
+        width: 94vw;
+        max-height: 90vh;
+        padding: 22px;
+    }
+
+    .topo-review {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .jogo-info img {
+        width: 160px;
+        height: 210px;
+    }
+
+    .plataformas-radio {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .review-linha-envio {
+        grid-template-columns: 1fr;
+    }
+
+    .review-linha-envio .btn-publicar-review {
+        height: 60px;
+    }
+}
