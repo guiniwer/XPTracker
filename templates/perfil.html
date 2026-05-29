@@ -1,19 +1,29 @@
-{% extends 'base.html' %}
-
-{% block title %}XPTracker | Perfil{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/confirmacao.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/modal_review.css') }}">
-{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}XPTracker | Perfil{% endblock %} {%
+block extra_css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/footer.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/perfil.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/confirmacao.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/modal_review.css') }}"
+/>
+{% endblock %} {% block content %}
 <div class="perfil">
-
   <div class="container-perfil">
-    <img id="avatar-topo" src="{{ usuario.foto_perfil_url if usuario.foto_perfil_url else url_for('static', filename='img/avatar_usuario.webp') }}" alt="{{ usuario.nome }} perfil">
+    <img
+      id="avatar-topo"
+      src="{{ usuario.foto_perfil_url if usuario.foto_perfil_url else url_for('static', filename='img/perfil_padrao.jpg') }}"
+      alt="{{ usuario.nome }} perfil"
+    />
 
     <div class="perfil-identidade">
       <h1>{{ usuario.nome }}</h1>
@@ -22,31 +32,65 @@
     <button id="btn-editar">Editar perfil</button>
   </div>
 
-  <form class="editar-perfil" method="POST" action="{{ url_for('editar_perfil') }}">
+  <form
+    class="editar-perfil"
+    method="POST"
+    action="{{ url_for('editar_perfil') }}"
+  >
     <div class="campo-editar editar-avatar">
       <span class="rotulo-editar">Avatar</span>
 
       <div class="avatar-area">
-        <button type="button" id="abrir-galeria-avatar" class="avatar-trocar" title="Alterar avatar" aria-label="Alterar avatar">
-          <img id="preview-avatar-perfil" src="{{ usuario.foto_perfil_url if usuario.foto_perfil_url else url_for('static', filename='img/avatar_usuario.webp') }}" alt="avatar">
+        <button
+          type="button"
+          id="abrir-galeria-avatar"
+          class="avatar-trocar"
+          title="Alterar avatar"
+          aria-label="Alterar avatar"
+        >
+          <img
+            id="preview-avatar-perfil"
+            src="{{ usuario.foto_perfil_url if usuario.foto_perfil_url else url_for('static', filename='img/perfil_padrao.jpg') }}"
+            alt="avatar"
+          />
           <span class="avatar-selo"><i class="fa-solid fa-camera"></i></span>
         </button>
       </div>
 
-      <input type="hidden" name="foto_perfil_url" id="foto_perfil_url" value="{{ usuario.foto_perfil_url }}">
+      <input
+        type="hidden"
+        name="foto_perfil_url"
+        id="foto_perfil_url"
+        value="{{ usuario.foto_perfil_url }}"
+      />
     </div>
 
     <div class="campo-editar editar-nome">
       <label class="rotulo-editar" for="input-nome">Nome de usuário</label>
 
-      <input id="input-nome" type="text" name="nome" value="{{ usuario.nome }}" required>
-      <p class="ajuda-editar">Você só pode alterar o nome de usuário a cada 30 dias.</p>
+      <input
+        id="input-nome"
+        type="text"
+        name="nome"
+        value="{{ usuario.nome }}"
+        required
+      />
+      <p class="ajuda-editar">
+        Você só pode alterar o nome de usuário a cada 30 dias.
+      </p>
     </div>
 
     <div class="campo-editar editar-bio">
       <label class="rotulo-editar" for="input-bio">Biografia</label>
 
-      <textarea id="input-bio" name="bio" maxlength="280" placeholder="Escreva sua biografia...">{{ usuario.bio }}</textarea>
+      <textarea
+        id="input-bio"
+        name="bio"
+        maxlength="280"
+        placeholder="Escreva sua biografia..."
+      >
+{{ usuario.bio }}</textarea
+      >
       <span class="contador-bio"><span id="bio-count">0</span>/280</span>
     </div>
 
@@ -64,31 +108,44 @@
   <div class="avaliacoes">
     <h2 class="titulos-perfil titulo-com-acao">
       Avaliações
-      <button type="button" class="btn-fazer-review" id="btn-criar-review">Fazer Review +</button>
+      <button type="button" class="btn-fazer-review" id="btn-criar-review">
+        Fazer Review +
+      </button>
     </h2>
 
     <div class="fotos-avaliacao">
-
       {% for review in reviews %}
-      <div class="card-avaliacao card-review-hover" data-card-review data-id="{{ review.id }}"
-        data-nome="{{ review.nome_jogo }}" data-texto="{{ review.review_texto }}"
-        data-nota="{{ review.nota }}">
-
+      <div
+        class="card-avaliacao card-review-hover"
+        data-card-review
+        data-id="{{ review.id }}"
+        data-nome="{{ review.nome_jogo }}"
+        data-texto="{{ review.review_texto }}"
+        data-nota="{{ review.nota }}"
+      >
         <div class="thumb-review">
-          <img src="{{ review.capa_jogo_url }}" alt="{{ review.nome_jogo }}">
+          <img src="{{ review.capa_jogo_url }}" alt="{{ review.nome_jogo }}" />
 
           <div class="review-overlay">
             <h3>{{ review.nome_jogo }}</h3>
             <p>{{ review.review_texto }}</p>
 
             <div class="review-overlay-actions">
-              <button type="button" class="btn-editar-review-perfil" data-id="{{ review.id }}"
-                title="Editar avaliação">
+              <button
+                type="button"
+                class="btn-editar-review-perfil"
+                data-id="{{ review.id }}"
+                title="Editar avaliação"
+              >
                 <i class="fa-solid fa-pen"></i>
               </button>
 
-              <button type="button" class="btn-deletar-review-perfil" data-id="{{ review.id }}"
-                title="Excluir avaliação">
+              <button
+                type="button"
+                class="btn-deletar-review-perfil"
+                data-id="{{ review.id }}"
+                title="Excluir avaliação"
+              >
                 <i class="fa-solid fa-trash"></i>
               </button>
             </div>
@@ -101,22 +158,27 @@
           </span>
 
           <div class="stars">
-            {% set nota = review.nota|float %}
-
-            {% for i in range(1, 6) %}
-            {% if i <= nota %} <span class="pink">★</span>
-              {% elif i - 0.5 <= nota %} <span class="half">★</span>
-                {% else %}
-                <span class="white">★</span>
-                {% endif %}
-                {% endfor %}
+            {% set nota = review.nota|float %} {% for i in range(1, 6) %} {% if
+            i <= nota %} <span class="pink">★</span> {% elif i - 0.5 <= nota %}
+            <span class="half">★</span>
+            {% else %}
+            <span class="white">★</span>
+            {% endif %} {% endfor %}
           </div>
         </div>
       </div>
       {% else %}
-      <p style="grid-column: 1 / -1; text-align: left; padding: 8px 20px 8px 0; opacity: .4;">Nenhuma avaliação ainda. Crie sua primeira review!</p>
+      <p
+        style="
+          grid-column: 1 / -1;
+          text-align: left;
+          padding: 8px 20px 8px 0;
+          opacity: 0.4;
+        "
+      >
+        Nenhuma avaliação ainda. Crie sua primeira review!
+      </p>
       {% endfor %}
-
     </div>
   </div>
 
@@ -124,153 +186,145 @@
     <h2 class="titulos-perfil" id="desejo-id">Lista de Desejo</h2>
 
     <div class="fotos-listadesejo">
-
       {% for jogo in desejos %}
-      <div class="card-desejo abrir-modal-jogo" data-card-desejo data-nome="{{ jogo.nome_jogo }}"
-        data-capa="{{ jogo.capa_jogo_url }}">
+      <div
+        class="card-desejo abrir-modal-jogo"
+        data-card-desejo
+        data-nome="{{ jogo.nome_jogo }}"
+        data-capa="{{ jogo.capa_jogo_url }}"
+      >
+        <img src="{{ jogo.capa_jogo_url }}" alt="{{ jogo.nome_jogo }}" />
 
-        <img src="{{ jogo.capa_jogo_url }}" alt="{{ jogo.nome_jogo }}">
+        <button type="button" class="btn-avaliar-desejo">Avaliar</button>
 
-        <button type="button" class="btn-avaliar-desejo">
-          Avaliar
-        </button>
-
-        <button type="button" class="btn-excluir-desejo" data-id="{{ jogo.id }}" title="Remover da lista">
+        <button
+          type="button"
+          class="btn-excluir-desejo"
+          data-id="{{ jogo.id }}"
+          title="Remover da lista"
+        >
           <i class="fa-solid fa-trash"></i>
         </button>
       </div>
+
+      {% else %}
+      <p
+        style="
+          grid-column: 1 / -1;
+          text-align: left;
+          padding: 8px 20px 8px 0;
+          opacity: 0.4;
+        "
+      >
+        Nada aqui...
+      </p>
       {% endfor %}
-
-      <div class="card-desejo abrir-modal-jogo" data-nome="It Takes Two"
-        data-capa="{{ url_for('static', filename='img/perfil/it-takes-two-capa.webp') }}">
-        <img src="{{ url_for('static', filename='img/perfil/it-takes-two-capa.webp') }}" alt="It Takes Two">
-        <button type="button" class="btn-avaliar-desejo">Avaliar</button>
-
-        <button type="button" class="btn-excluir-desejo-local" title="Remover da lista">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </div>
-
-      <div class="card-desejo abrir-modal-jogo" data-nome="Diablo"
-        data-capa="{{ url_for('static', filename='img/perfil/diablo-capa.jpg') }}">
-        <img src="{{ url_for('static', filename='img/perfil/diablo-capa.jpg') }}" alt="Diablo">
-        <button type="button" class="btn-avaliar-desejo">Avaliar</button>
-
-        <button type="button" class="btn-excluir-desejo-local" title="Remover da lista">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </div>
-
-      <div class="card-desejo abrir-modal-jogo" data-nome="Warcraft"
-        data-capa="{{ url_for('static', filename='img/perfil/Warcraft-capa.jpg') }}">
-        <img src="{{ url_for('static', filename='img/perfil/Warcraft-capa.jpg') }}" alt="Warcraft">
-        <button type="button" class="btn-avaliar-desejo">Avaliar</button>
-
-        <button type="button" class="btn-excluir-desejo-local" title="Remover da lista">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </div>
-
-      <div class="card-desejo abrir-modal-jogo" data-nome="Minecraft"
-        data-capa="{{ url_for('static', filename='img/perfil/minecraft-capa.webp') }}">
-        <img src="{{ url_for('static', filename='img/perfil/minecraft-capa.webp') }}" alt="Minecraft">
-        <button type="button" class="btn-avaliar-desejo">Avaliar</button>
-
-        <button type="button" class="btn-excluir-desejo-local" title="Remover da lista">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </div>
-
     </div>
   </div>
 
   <div class="favoritos">
     <h2 class="titulos-perfil">Favoritos</h2>
     <div class="fotos-favoritos">
-
       <div class="foto-favorito">
-        <img src="{{ url_for('static', filename='img/perfil/dokidoki.avif') }}" alt="dokidoki capa">
+        <img
+          src="{{ url_for('static', filename='img/perfil/dokidoki.avif') }}"
+          alt="dokidoki capa"
+        />
         <h3>Doki Doki</h3>
-        <p>O Dokidoki tem uma proposta leve e divertida, com uma interface agradável e fácil de usar.
-          Tornando a interação mais
-          natural e interessante. Ótima iniciativa para quem busca algo diferente e bem organizado.</p>
+        <p>
+          O Dokidoki tem uma proposta leve e divertida, com uma interface
+          agradável e fácil de usar. Tornando a interação mais natural e
+          interessante. Ótima iniciativa para quem busca algo diferente e bem
+          organizado.
+        </p>
 
         <div class="acoes-favorito">
           <i class="fa-regular fa-heart"></i>
           <i class="fa-regular fa-bookmark"></i>
 
-          <div class="estrelas-favorito">
-            ★★★★★
-          </div>
+          <div class="estrelas-favorito">★★★★★</div>
         </div>
       </div>
       <div class="foto-favorito">
-        <img src="{{ url_for('static', filename='img/perfil/cod.webp') }}" alt="cod capa">
+        <img
+          src="{{ url_for('static', filename='img/perfil/cod.webp') }}"
+          alt="cod capa"
+        />
         <h3>Call of Duty</h3>
-        <p>O COD entrega uma experiência dinâmica e envolvente, com ótima jogabilidade e partidas intensas.
-          Os gráficos são muito bons e a variedade de modos mantém o jogo sempre interessante. Um app bem
-          otimizado e divertido para jogar com amigos.</p>
+        <p>
+          O COD entrega uma experiência dinâmica e envolvente, com ótima
+          jogabilidade e partidas intensas. Os gráficos são muito bons e a
+          variedade de modos mantém o jogo sempre interessante. Um app bem
+          otimizado e divertido para jogar com amigos.
+        </p>
         <div class="acoes-favorito">
           <i class="fa-regular fa-heart"></i>
           <i class="fa-regular fa-bookmark"></i>
 
-          <div class="estrelas-favorito">
-            ★★★★★
-          </div>
+          <div class="estrelas-favorito">★★★★★</div>
         </div>
       </div>
       <div class="foto-favorito">
-        <img src="{{ url_for('static', filename='img/perfil/gta.avif') }}" alt="gta capa">
+        <img
+          src="{{ url_for('static', filename='img/perfil/gta.avif') }}"
+          alt="gta capa"
+        />
         <h3>GTA</h3>
-        <p>O GTA é um jogo muito divertido e cheio de possibilidades, com mapa amplo, missões interessantes
-          e muita liberdade para explorar. Os gráficos e a ambientação deixam a experiência ainda mais
-          imersiva, garantindo horas de entretenimento.</p>
+        <p>
+          O GTA é um jogo muito divertido e cheio de possibilidades, com mapa
+          amplo, missões interessantes e muita liberdade para explorar. Os
+          gráficos e a ambientação deixam a experiência ainda mais imersiva,
+          garantindo horas de entretenimento.
+        </p>
         <div class="acoes-favorito">
           <i class="fa-regular fa-heart"></i>
           <i class="fa-regular fa-bookmark"></i>
 
-          <div class="estrelas-favorito">
-            ★★★★★
-          </div>
+          <div class="estrelas-favorito">★★★★★</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-{% set avatares = [
-    {'nome': 'God of War', 'arquivo': 'img/avatares/god_of_war.jpg'},
-    {'nome': 'The Witcher 3', 'arquivo': 'img/avatares/witcher3.jpg'},
-    {'nome': 'Red Dead 2', 'arquivo': 'img/avatares/rdr2.jpg'},
-    {'nome': 'Spider-Man', 'arquivo': 'img/avatares/spiderman.jpg'},
-    {'nome': 'The Last of Us', 'arquivo': 'img/avatares/last_of_us.jpg'},
-    {'nome': 'Resident Evil 4', 'arquivo': 'img/avatares/resident_evil4.jpg'},
-    {'nome': 'Doom Eternal', 'arquivo': 'img/avatares/doom_eternal.jpg'},
-    {'nome': 'NieR: Automata', 'arquivo': 'img/avatares/nier_automata.jpg'},
-    {'nome': 'Persona 5', 'arquivo': 'img/avatares/persona5.jpg'},
-    {'nome': 'Hades', 'arquivo': 'img/avatares/hades.jpg'},
-    {'nome': 'Ghost of Tsushima', 'arquivo': 'img/avatares/ghost_tsushima.jpg'},
-    {'nome': 'Mortal Kombat 1', 'arquivo': 'img/avatares/mk1.jpg'},
-    {'nome': 'Cyberpunk 2077', 'arquivo': 'img/avatares/cyberpunk.jpg'},
-    {'nome': 'Control', 'arquivo': 'img/avatares/control.jpg'},
-    {'nome': 'Final Fantasy XVI', 'arquivo': 'img/avatares/ff16.jpg'},
-    {'nome': 'Returnal', 'arquivo': 'img/avatares/returnal.jpg'}
-] %}
+{% set avatares = [ {'nome': 'God of War', 'arquivo':
+'img/avatares/god_of_war.jpg'}, {'nome': 'The Witcher 3', 'arquivo':
+'img/avatares/witcher3.jpg'}, {'nome': 'Red Dead 2', 'arquivo':
+'img/avatares/rdr2.jpg'}, {'nome': 'Spider-Man', 'arquivo':
+'img/avatares/spiderman.jpg'}, {'nome': 'The Last of Us', 'arquivo':
+'img/avatares/last_of_us.jpg'}, {'nome': 'Resident Evil 4', 'arquivo':
+'img/avatares/resident_evil4.jpg'}, {'nome': 'Doom Eternal', 'arquivo':
+'img/avatares/doom_eternal.jpg'}, {'nome': 'NieR: Automata', 'arquivo':
+'img/avatares/nier_automata.jpg'}, {'nome': 'Persona 5', 'arquivo':
+'img/avatares/persona5.jpg'}, {'nome': 'Hades', 'arquivo':
+'img/avatares/hades.jpg'}, {'nome': 'Ghost of Tsushima', 'arquivo':
+'img/avatares/ghost_tsushima.jpg'}, {'nome': 'Mortal Kombat 1', 'arquivo':
+'img/avatares/mk1.jpg'}, {'nome': 'Cyberpunk 2077', 'arquivo':
+'img/avatares/cyberpunk.jpg'}, {'nome': 'Control', 'arquivo':
+'img/avatares/control.jpg'}, {'nome': 'Final Fantasy XVI', 'arquivo':
+'img/avatares/ff16.jpg'}, {'nome': 'Returnal', 'arquivo':
+'img/avatares/returnal.jpg'} ] %}
 
 <div class="overlay-galeria" id="overlay-galeria">
   <div class="modal-galeria">
     <div class="topo-galeria">
       <h2>Escolha seu personagem</h2>
 
-      <button type="button" class="fechar-galeria" id="fechar-galeria">X</button>
+      <button type="button" class="fechar-galeria" id="fechar-galeria">
+        X
+      </button>
     </div>
 
     <div class="galeria-grid">
-      {% for avatar in avatares %}
-      {% set avatar_url = url_for('static', filename=avatar.arquivo) %}
-      <button type="button" class="avatar-opcao {{ 'selecionado' if usuario.foto_perfil_url == avatar_url else '' }}"
-        data-avatar="{{ avatar_url }}" title="{{ avatar.nome }}">
-        <img src="{{ avatar_url }}" alt="{{ avatar.nome }}">
+      {% for avatar in avatares %} {% set avatar_url = url_for('static',
+      filename=avatar.arquivo) %}
+      <button
+        type="button"
+        class="avatar-opcao {{ 'selecionado' if usuario.foto_perfil_url == avatar_url else '' }}"
+        data-avatar="{{ avatar_url }}"
+        title="{{ avatar.nome }}"
+      >
+        <img src="{{ avatar_url }}" alt="{{ avatar.nome }}" />
         <span>{{ avatar.nome }}</span>
       </button>
       {% endfor %}
@@ -278,14 +332,12 @@
   </div>
 </div>
 
-{% with modal_origem = 'perfil' %}{% include '_modal_review.html' %}{% endwith %}
-
-{% include '_modal_edit_review.html' %}
-
-{% include '_modal_confirmacao.html' %}
-{% endblock %}
-
-{% block scripts %}
-<script type="module" src="{{ url_for('static', filename='js/perfil-page.js') }}"></script>
+{% with modal_origem = 'perfil' %}{% include '_modal_review.html' %}{% endwith
+%} {% include '_modal_edit_review.html' %} {% include '_modal_confirmacao.html'
+%} {% endblock %} {% block scripts %}
+<script
+  type="module"
+  src="{{ url_for('static', filename='js/perfil-page.js') }}"
+></script>
 <script src="{{ url_for('static', filename='js/perfil.js') }}"></script>
 {% endblock %}

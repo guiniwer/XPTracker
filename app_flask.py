@@ -1,22 +1,26 @@
-from functools import wraps
-import os
-import secrets
+from functools import wraps # Importa wraps para manter informacoes originais das funcoes decoradas, como nome e docstring.
+import os # Importa os para acessar variaveis de ambiente, como chaves e portas.
+import secrets # Importa secrets para gerar uma chave secreta segura caso nao exista no .env.
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv # Carrega variaveis do arquivo .env para dentro da aplicacao.
+# Importa recursos principais do Flask para rotas, templates, sessoes, mensagens e respostas JSON.
 from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for
-import requests
+import requests # Importa requests para fazer chamadas HTTP para a FastAPI e para a API externa RAWG.
 
 
 load_dotenv()
 
+# Cria a aplicacao Flask.
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY") or secrets.token_hex(32)
 
+# Configuracoes principais usadas para conectar com APIs e controlar timeout das requisicoes.
 API_FASTAPI = os.getenv("API_FASTAPI", "http://127.0.0.1:8000")
 RAWG_KEY = os.getenv("RAWG_KEY", "")
 REQUEST_TIMEOUT = 8
 
 
+# Funcao auxiliar para centralizar chamadas HTTP feitas para a API FastAPI.
 def api_request(method, path, **kwargs):
     try:
         return requests.request(
@@ -29,6 +33,7 @@ def api_request(method, path, **kwargs):
         return None
 
 
+# Funcao auxiliar para transformar erros da API em mensagens amigaveis para o usuario.
 def api_error_message(resposta, fallback):
     if resposta is None:
         return "Nao foi possivel conectar com a API. Verifique se a FastAPI esta rodando na porta 8000."
@@ -46,6 +51,7 @@ def api_error_message(resposta, fallback):
     return dados.get("message", fallback)
 
 
+# Decorator que protege rotas e obriga o usuario a estar logado para acessar.
 def login_required(view):
     @wraps(view)
     def wrapped(*args, **kwargs):
@@ -56,6 +62,7 @@ def login_required(view):
     return wrapped
 
 
+# Funcao que padroniza os dados do usuario vindos da API antes de usar na sessao ou templates.
 def normalizar_usuario(payload):
     usuario = payload.get("usuario", payload) if isinstance(payload, dict) else {}
     foto = usuario.get("foto_url") or usuario.get("foto_perfil_url") or ""
@@ -71,6 +78,7 @@ def normalizar_usuario(payload):
     }
 
 
+# Funcao que padroniza os dados de uma avaliacao/review, aceitando nomes diferentes de campos.
 def normalizar_review(review):
     capa = (
         review.get("capa_jogo_url")
@@ -97,6 +105,7 @@ def normalizar_review(review):
     }
 
 
+# Funcao que padroniza os dados dos jogos salvos na lista de desejos.
 def normalizar_desejo(desejo):
     capa = (
         desejo.get("capa_jogo_url")
@@ -116,11 +125,13 @@ def normalizar_desejo(desejo):
     }
 
 
+# Funcao auxiliar que retorna o id do usuario atualmente salvo na sessao.
 def usuario_logado_id():
     usuario = session.get("usuario", {})
     return usuario.get("id")
 
 
+# Funcao que busca na API todas as avaliacoes feitas por um usuario especifico.
 def buscar_reviews_usuario(usuario_id):
     resposta = api_request("GET", f"/usuarios/{usuario_id}/avaliacoes")
     if resposta is None or resposta.status_code != 200:
@@ -130,6 +141,7 @@ def buscar_reviews_usuario(usuario_id):
     return [normalizar_review(review) for review in dados.get("avaliacoes", [])]
 
 
+# Funcao que busca na API todas as avaliacoes publicadas.
 def buscar_todas_reviews():
     resposta = api_request("GET", "/avaliacoes")
     if resposta is None or resposta.status_code != 200:
@@ -139,6 +151,7 @@ def buscar_todas_reviews():
     return [normalizar_review(review) for review in dados.get("avaliacoes", [])]
 
 
+# Funcao que busca na API a lista de desejos de um usuario especifico.
 def buscar_desejos_usuario(usuario_id):
     resposta = api_request("GET", f"/usuarios/{usuario_id}/desejos")
     if resposta is None or resposta.status_code != 200:
@@ -148,6 +161,7 @@ def buscar_desejos_usuario(usuario_id):
     return [normalizar_desejo(desejo) for desejo in dados.get("desejos", [])]
 
 
+# Funcao que atualiza os dados do usuario logado dentro da sessao.
 def atualizar_usuario_na_sessao():
     usuario_id = usuario_logado_id()
     if not usuario_id:
@@ -159,11 +173,16 @@ def atualizar_usuario_na_sessao():
         session.modified = True
 
 
+# ROTAS DA APLICACAO - Cada rota corresponde a uma URL e a um metodo HTTP, e define a
+# logica de negocio para aquela funcionalidade especifica da aplicacao.
+
+# Rota publica da pagina inicial para usuarios nao logados.
 @app.route("/")
 def inicio_publico():
     return render_template("index.html")
 
 
+# Rota da home logada, exibindo dados do usuario, suas reviews e reviews populares.
 @app.route("/home")
 @login_required
 def home():
@@ -180,6 +199,7 @@ def home():
     )
 
 
+# Rota de login: exibe o formulario no GET e autentica o usuario no POST.
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -199,6 +219,7 @@ def login():
     return render_template("login.html")
 
 
+# Rota de cadastro: exibe o formulario no GET e cria um novo usuario no POST.
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
     if request.method == "POST":
@@ -226,12 +247,14 @@ def cadastro():
     return render_template("cadastro.html")
 
 
+# Rota que redireciona o usuario para a area de criar nova avaliacao na home.
 @app.route("/nova-avaliacao")
 @login_required
 def nova_avaliacao():
     return redirect(url_for("home") + "#minhas-reviews")
 
 
+# Rota de perfil do usuario logado, exibindo reviews e lista de desejos.
 @app.route("/perfil")
 @login_required
 def perfil():
@@ -246,12 +269,14 @@ def perfil():
     )
 
 
+# Rota de logout, responsavel por limpar a sessao do usuario.
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("inicio_publico"))
 
 
+# Rota que busca informacoes de um jogo na API RAWG a partir do formulario.
 @app.route("/buscar-jogo", methods=["POST"])
 @login_required
 def buscar_jogo():
@@ -293,6 +318,7 @@ def buscar_jogo():
     )
 
 
+# Rota JSON que retorna sugestoes de jogos para autocomplete usando a API RAWG.
 @app.route("/sugestoes-jogos")
 def sugestoes_jogos():
     termo = request.args.get("q", "").strip()
@@ -323,6 +349,7 @@ def sugestoes_jogos():
     return jsonify(sugestoes)
 
 
+# Rota que salva uma nova avaliacao feita pelo usuario logado.
 @app.route("/salvar-avaliacao", methods=["POST"])
 @login_required
 def salvar_avaliacao():
@@ -368,6 +395,7 @@ def salvar_avaliacao():
     return redirect(url_for("home" if origem == "home" else "perfil"))
 
 
+# Rota que atualiza nome, bio e foto de perfil do usuario logado.
 @app.route("/editar-perfil", methods=["POST"])
 @login_required
 def editar_perfil():
@@ -392,6 +420,7 @@ def editar_perfil():
     return redirect(url_for("perfil"))
 
 
+# Rota tradicional que deleta uma avaliacao e redireciona de volta ao perfil.
 @app.route("/deletar-avaliacao/<int:id>", methods=["POST"])
 @login_required
 def deletar_avaliacao(id):
@@ -405,6 +434,7 @@ def deletar_avaliacao(id):
     return redirect(url_for("perfil"))
 
 
+# Rota JSON que deleta uma avaliacao sem precisar recarregar a pagina inteira.
 @app.route("/deletar-avaliacao-json/<int:id>", methods=["POST"])
 @login_required
 def deletar_avaliacao_json(id):
@@ -416,6 +446,7 @@ def deletar_avaliacao_json(id):
     return jsonify({"erro": api_error_message(resposta, "Erro ao excluir avaliacao.")}), 400
 
 
+# Rota JSON que edita nota e texto de uma avaliacao existente.
 @app.route("/editar-avaliacao-json/<int:id>", methods=["POST"])
 @login_required
 def editar_avaliacao_json(id):
@@ -444,6 +475,7 @@ def editar_avaliacao_json(id):
     return jsonify({"erro": api_error_message(resposta, "Erro ao editar avaliacao.")}), 400
 
 
+# Rota JSON que adiciona um jogo na lista de desejos do usuario.
 @app.route("/adicionar-desejo-json", methods=["POST"])
 @login_required
 def adicionar_desejo_json():
@@ -472,6 +504,7 @@ def adicionar_desejo_json():
     return jsonify({"erro": api_error_message(resposta, "Erro ao adicionar desejo.")}), 400
 
 
+# Rota JSON que remove um jogo da lista de desejos do usuario.
 @app.route("/deletar-desejo-json/<int:id>", methods=["POST"])
 @login_required
 def deletar_desejo_json(id):
@@ -483,6 +516,7 @@ def deletar_desejo_json(id):
     return jsonify({"erro": api_error_message(resposta, "Erro ao remover desejo.")}), 400
 
 
+# Ponto de entrada da aplicacao quando o arquivo e executado diretamente.
 if __name__ == "__main__":
     porta = int(os.getenv("PORT", "5000"))
     app.run(debug=True, port=porta)

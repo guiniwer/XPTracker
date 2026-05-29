@@ -31,7 +31,7 @@
   <section class="dashboard-panels">
 
     <article class="dash-card profile-card">
-      <img src="{{ usuario.foto_perfil_url if usuario.foto_perfil_url else url_for('static', filename='img/avatar_usuario.webp') }}" alt="{{ usuario.nome }} avatar" class="profile-avatar">
+      <img src="{{ usuario.foto_perfil_url if usuario.foto_perfil_url else url_for('static', filename='img/perfil_padrao.jpg') }}" alt="{{ usuario.nome }} avatar" class="profile-avatar">
 
       <div class="profile-info">
         <h2>{{ usuario.nome }}</h2>
