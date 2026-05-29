@@ -232,7 +232,7 @@ textarea {
     width: 100%;
     height: 100%;
 
-    padding: 0 58px 0 10px;
+    padding: 0 82px 0 10px;
 
     background: transparent;
     border: none;
@@ -250,9 +250,9 @@ textarea {
 }
 
 /* botão direto da barra: lupa/link. Não afeta os botões das sugestões. */
-.site-header .search-box > button,
+.site-header .search-box > button:not(.btn-limpar-busca):not(.btn-submit-busca),
 .site-header .search-box > a,
-.modal-review .busca-modal > button {
+.modal-review .busca-modal > button:not(.btn-limpar-busca):not(.btn-submit-busca) {
     position: absolute;
     right: 18px;
     top: 50%;
@@ -296,6 +296,66 @@ textarea {
     font-size: 18px;
     line-height: 1;
     color: currentColor;
+}
+
+/* =========================
+   BOTÕES DA BUSCA: X + LUPA
+   (lupa à direita, X à esquerda; X só aparece quando há texto)
+========================= */
+.site-header .search-box .btn-limpar-busca,
+.modal-review .busca-modal .btn-limpar-busca,
+.site-header .search-box .btn-submit-busca,
+.modal-review .busca-modal .btn-submit-busca {
+    position: absolute;
+    top: 50%;
+
+    width: 24px;
+    height: 24px;
+
+    display: grid;
+    place-items: center;
+
+    transform: translateY(-50%);
+
+    border: none;
+    background: transparent;
+    padding: 0;
+
+    color: rgba(255, 255, 255, 0.72);
+    cursor: pointer;
+
+    line-height: 1;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.site-header .search-box .btn-submit-busca,
+.modal-review .busca-modal .btn-submit-busca {
+    right: 18px;
+}
+
+.site-header .search-box .btn-limpar-busca,
+.modal-review .busca-modal .btn-limpar-busca {
+    right: 48px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.site-header .search-box.tem-texto .btn-limpar-busca,
+.modal-review .busca-modal.tem-texto .btn-limpar-busca {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.site-header .search-box .btn-limpar-busca:hover,
+.modal-review .busca-modal .btn-limpar-busca:hover,
+.site-header .search-box .btn-submit-busca:hover,
+.modal-review .busca-modal .btn-submit-busca:hover {
+    color: white;
+    transform: translateY(-50%) scale(1.08);
 }
 
 /* remove o X nativo feio do input search no Chrome/Edge/Safari */
